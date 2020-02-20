@@ -24,5 +24,18 @@
             "StackId": "arn:aws:cloudformation:us-west-2:411601530338:stack/amplify-bargainlens-dev-05026/0a9bb650-53be-11ea-a554-0222bb28abfe",
             "AmplifyAppId": "dbhpwzo639zu5"
         }
+    },
+    "mobiledev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-bargainlens-mobiledev-12922-authRole",
+            "UnauthRoleArn": "arn:aws:iam::411601530338:role/amplify-bargainlens-mobiledev-12922-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::411601530338:role/amplify-bargainlens-mobiledev-12922-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-bargainlens-mobiledev-12922-deployment",
+            "UnauthRoleName": "amplify-bargainlens-mobiledev-12922-unauthRole",
+            "StackName": "amplify-bargainlens-mobiledev-12922",
+            "StackId": "arn:aws:cloudformation:us-west-2:411601530338:stack/amplify-bargainlens-mobiledev-12922/85a5dfb0-53c3-11ea-b379-06b8fd1f0384",
+            "AmplifyAppId": "d10fx0q2fmydv6"
+        }
     }
 }
