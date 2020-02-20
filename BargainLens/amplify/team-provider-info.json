@@ -1,0 +1,15 @@
+{
+    "mobile": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-bargainlens-mobile-222437-authRole",
+            "UnauthRoleArn": "arn:aws:iam::411601530338:role/amplify-bargainlens-mobile-222437-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::411601530338:role/amplify-bargainlens-mobile-222437-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-bargainlens-mobile-222437-deployment",
+            "UnauthRoleName": "amplify-bargainlens-mobile-222437-unauthRole",
+            "StackName": "amplify-bargainlens-mobile-222437",
+            "StackId": "arn:aws:cloudformation:us-west-2:411601530338:stack/amplify-bargainlens-mobile-222437/abc90d80-53a9-11ea-9b7a-06cc4930f05a",
+            "AmplifyAppId": "d2g128di6p9rqn"
+        }
+    }
+}
