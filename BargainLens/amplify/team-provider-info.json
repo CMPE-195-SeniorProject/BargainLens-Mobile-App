@@ -10,6 +10,18 @@
             "StackName": "amplify-bargainlens-mobile-222437",
             "StackId": "arn:aws:cloudformation:us-west-2:411601530338:stack/amplify-bargainlens-mobile-222437/abc90d80-53a9-11ea-9b7a-06cc4930f05a",
             "AmplifyAppId": "d2g128di6p9rqn"
+        },
+        "categories": {
+            "function": {
+                "bargainlensca523be9CustomMessage": {
+                    "REDIRECTURL": "",
+                    "EMAILSUBJECT": "BargainLens: Confirmation Email",
+                    "EMAILMESSAGE": "Please click the link below to confirm your email."
+                }
+            },
+            "auth": {
+                "bargainlensca523be9": {}
+            }
         }
     }
 }
