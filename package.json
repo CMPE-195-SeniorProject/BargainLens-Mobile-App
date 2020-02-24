@@ -11,10 +11,20 @@
     "aws-amplify": "^2.2.5",
     "aws-amplify-react-native": "^3.2.2",
     "expo": "~36.0.0",
+    "moment": "^2.24.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
-    "react-native-web": "~0.11.7"
+    "react-native-button": "^2.4.0",
+    "react-native-fast-image": "^7.0.2",
+    "react-native-fbsdk": "^1.1.2",
+    "react-native-elements": "^0.19.1", 
+    "react-native-gesture-handler": "^1.6.0",
+    "react-native-web": "~0.11.7",
+    "react-navigation": "^2.18.3",
+    "react-navigation-redux-helpers": "^2.0.9",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
