@@ -4,12 +4,15 @@ import styles from "./style";
 import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView} from 'react-native';
 import { Button } from 'react-native-elements';
 
-const appId = "1047121222092614"
-
-export default class LoginScreen extends Component 
-{
+export default class Signup extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam(''),
+    };
+  };
   render() 
   {
+    const { navigate, state } = this.props.navigation;
     return (
       <KeyboardAvoidingView style={styles.containerView} behavior="padding">
 
@@ -37,16 +40,6 @@ export default class LoginScreen extends Component
     );
   }
 
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-  }
-
-  onLoginPress() {
-
-  }
-
   async onFbLoginPress() {
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(appId, {
       permissions: ['public_profile', 'email'],
@@ -60,4 +53,5 @@ export default class LoginScreen extends Component
       );
     }
   }
+
 }
