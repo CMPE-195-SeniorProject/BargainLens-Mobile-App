@@ -10,10 +10,6 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
-./package-lock.json
-
-# yarn
-./yarn.lock
 
 # macOS
 .DS_Store
@@ -33,6 +29,7 @@ amplifyconfiguration.json
 amplify-gradle-config.json
 amplifyxc.config
 #dependencies
+yarn.lock
 package-lock.json
 
 # Logs
