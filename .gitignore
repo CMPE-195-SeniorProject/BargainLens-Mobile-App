@@ -28,6 +28,7 @@ awsconfiguration.json
 amplifyconfiguration.json
 amplify-gradle-config.json
 amplifyxc.config
+
 #dependencies
 yarn.lock
 package-lock.json
