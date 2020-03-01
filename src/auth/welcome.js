@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import styles from "./welc-style.js";
+import styles from "../auth/style";
 import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView} from 'react-native';
 import { Button } from 'react-native-elements';
 
 export default class Welcome extends React.Component {
      static navigationOptions = {
-        title: 'Welcome',
-    };
+        headerShown: false,
+    }; 
  
     render() 
   {
-      const { navigate } = this.props.navigation;
+    const { navigate } = this.props.navigation;
     return (
       <KeyboardAvoidingView style={styles.containerView} behavior="padding">
-        <View style={styles.loginScreenContainer}>
+        <View style={styles.welcomeScreenContainer}>
           <Text style={styles.logoText}>Welcome to BargainLens!</Text>
             <Button
               buttonStyle={styles.welcbuttons}

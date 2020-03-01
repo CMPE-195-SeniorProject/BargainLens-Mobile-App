@@ -7,7 +7,12 @@ import { Button } from 'react-native-elements';
 export default class Signup extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam(''),
+      title: null,
+      headerStyle: {
+        backgroundColor: '#77dd77',
+        borderColor: '#77dd77',
+        shadowColor: 'transparent',
+      },
     };
   };
   render() 

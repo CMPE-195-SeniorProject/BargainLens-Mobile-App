@@ -5,14 +5,14 @@ import { createStackNavigator } from 'react-navigation-stack';
 
 
 
-import login from './src/Screens/login/login'
-import signup from './src/Screens/SignUp/signup';
-import Welcome from './src/Screens/Welcome/welcome';
+import login from './src/auth/login'
+import signup from './src/auth/signup';
+import Welcome from './src/auth/welcome';
 
 const Navigator = createStackNavigator({
-  Welcome: { screen: Welcome },
-  login: { screen: login},
-  signup: { screen: signup},
+  Welcome: { screen: Welcome, headerShown: false },
+  login: { screen: login },
+  signup: { screen: signup },
 });
 
 const App = createAppContainer(Navigator);

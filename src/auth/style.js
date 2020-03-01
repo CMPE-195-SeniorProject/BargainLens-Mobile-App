@@ -11,6 +11,10 @@ loginScreenContainer: {
   flex: 1,
   backgroundColor: '#77dd77',
 },
+welcomeScreenContainer: {
+  flex: 1,
+  backgroundColor: '#fff',
+},
 logoText: {
   fontSize: 40,
   fontWeight: "800",
@@ -45,5 +49,11 @@ fbLoginButton: {
   height: 45,
   marginTop: 10,
   backgroundColor: 'transparent',
+},
+welcbuttons: {
+  backgroundColor: '#77dd77',
+  borderRadius: 5,
+  height: 45,
+  marginTop: 10,
 },
 };
