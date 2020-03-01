@@ -1,10 +1,27 @@
-import React, { Component } from "react";
+import React from "react";
 
 import styles from "./style";
 import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView} from 'react-native';
 import { Button } from 'react-native-elements';
 
-export default class Signup extends React.Component {
+export default class  Login extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      emailVerification: false,
+      error: ""
+    };
+
+    this.loginUsers = this.loginUser.bind(this);
+  }
+
+  loginUser = () => {
+
+  }
+  
   static navigationOptions = ({ navigation }) => {
     return {
       title: null,
@@ -15,6 +32,7 @@ export default class Signup extends React.Component {
       },
     };
   };
+
   render() 
   {
     const { navigate, state } = this.props.navigation;
@@ -24,7 +42,8 @@ export default class Signup extends React.Component {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.loginScreenContainer}>
           <View style={styles.loginFormView}>
-          <Text style={styles.logoText}>BargainLens</Text>
+            <Text style={styles.authHeaderText}>BargainLens</Text>
+            <Text style={styles.statusText}>{this.state.error}</Text>
             <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} />
             <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true}/>
             <Button

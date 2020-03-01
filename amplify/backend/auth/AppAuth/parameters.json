@@ -1,5 +1,5 @@
 {
-    "identityPoolName": "BargainLensId",
+    "identityPoolName": "BargainLens",
     "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "AppAut6b036c31",
     "userPoolName": "BargainLensUsers",
@@ -61,7 +61,6 @@
     "thirdPartyAuth": true,
     "authProviders": [
         "graph.facebook.com",
-        "accounts.google.com",
-        "www.amazon.com"
+        "accounts.google.com"
     ]
 }

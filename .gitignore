@@ -11,14 +11,10 @@ npm-debug.*
 web-build/
 web-report/
 ./package-lock.json
-<<<<<<< HEAD
-./yarn.lock
-=======
 
 # yarn
 ./yarn.lock
 
->>>>>>> Configured Cognito User Pool on AWS
 # macOS
 .DS_Store
 

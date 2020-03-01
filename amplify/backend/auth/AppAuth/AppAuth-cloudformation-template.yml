@@ -121,9 +121,6 @@ Parameters:
               
   googleClientId:
     Type: String
-              
-  amazonAppId:
-    Type: String
                         
 Conditions:
   ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]
@@ -351,7 +348,7 @@ Resources:
   # Always created
     Type: AWS::Cognito::IdentityPool
     Properties: 
-      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'BargainLensId', !Join ['',['BargainLensId', '__', !Ref env]]]
+      IdentityPoolName: !If [ShouldNotCreateEnvResources, 'BargainLens', !Join ['',['BargainLens', '__', !Ref env]]]
       
       CognitoIdentityProviders:
         - ClientId:  !Ref UserPoolClient
@@ -370,8 +367,6 @@ Resources:
         
         accounts.google.com: !Ref googleClientId
         
-        
-        www.amazon.com: !Ref amazonAppId
         
       
       AllowUnauthenticatedIdentities: !Ref allowUnauthenticatedIdentities
@@ -427,8 +422,5 @@ Outputs :
   FacebookWebClient:
     Value: !Ref facebookAppId
    
-  
-  AmazonWebClient:
-    Value: !Ref amazonAppId
    
   

@@ -22,6 +22,21 @@ logoText: {
   marginBottom: 30,
   textAlign: 'center',
 },
+authHeaderText: {
+  fontSize: 40,
+  fontWeight: "800",
+  marginTop: 150,
+  marginBottom: 5,
+  textAlign: 'center',
+},
+statusText: {
+  fontSize: 12,
+  fontWeight: "800",
+  marginTop: 0,
+  marginBottom: 10,
+  textAlign: 'center',
+  color: 'red'
+},
 loginFormView: {
   flex: 1
 },

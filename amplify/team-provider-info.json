@@ -16,8 +16,7 @@
                 "Auth": {},
                 "AppAuth": {
                     "facebookAppId": "3100330236857817",
-                    "googleClientId": "779980197810-nc2dog9btc0gqbik5vi32nmcgc9l6m9h.apps.googleusercontent.com",
-                    "amazonAppId": "amzn1.devportal.webapp.514a643da80c4ddc9d5d5d633d9865de"
+                    "googleClientId": "779980197810-nc2dog9btc0gqbik5vi32nmcgc9l6m9h.apps.googleusercontent.com"
                 }
             }
         }

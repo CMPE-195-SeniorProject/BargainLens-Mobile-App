@@ -1,14 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
 import styles from "../auth/style";
-import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView} from 'react-native';
+import { Text, View, KeyboardAvoidingView } from 'react-native';
 import { Button } from 'react-native-elements';
 
 export default class Welcome extends React.Component {
-     static navigationOptions = {
-        headerShown: false,
-    }; 
+  static navigationOptions = {
+    headerShown: false,
+  }; 
  
-    render() 
+  render() 
   {
     const { navigate } = this.props.navigation;
     return (
@@ -18,14 +18,14 @@ export default class Welcome extends React.Component {
             <Button
               buttonStyle={styles.welcbuttons}
               onPress={() => navigate(
-                  'signup', { name: ''}
+                  'Signup', { name: ''}
               )}
               title= "Sign Up"
             />
             <Button
               buttonStyle={styles.welcbuttons}
               onPress={() => navigate(
-                  'login', { name: ''}
+                  'Login', { name: ''}
               )}
               title= "Log In"
             />
