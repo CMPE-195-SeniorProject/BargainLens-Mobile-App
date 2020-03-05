@@ -70,7 +70,7 @@ export default class  Login extends React.Component {
             <Text style={styles.statusText}>{this.state.error}</Text>
             <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={username => this.setState({ username })} />
             <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
-            <Text style={styles.forgotLink} onPress={() => navigate('forgotPassword')}>Forgot Password?</Text>
+            <Text style={styles.forgotLink} onPress={() => navigate('ForgotPassword')}>Forgot Password?</Text>
             <Text style={styles.forgotLink} onPress={() => navigate('Signup')}>New user? Create Account</Text>
             <Button
               buttonStyle={styles.loginButton}
