@@ -25,8 +25,8 @@ logoText: {
 authHeaderText: {
   fontSize: 40,
   fontWeight: "800",
-  marginTop: 150,
-  marginBottom: 5,
+  marginTop: 110,
+  marginBottom: 10,
   textAlign: 'center',
 },
 statusText: {
@@ -60,10 +60,16 @@ loginButton: {
   height: 45,
   marginTop: 10,
 },
+signUpButton: {
+  backgroundColor: '#3897f1',
+  borderRadius: 5,
+  height: 45,
+  marginTop: 20,
+},
 fbLoginButton: {
   height: 45,
   marginTop: 10,
-  backgroundColor: 'transparent',
+  backgroundColor: 'transparent'
 },
 welcbuttons: {
   backgroundColor: '#77dd77',
@@ -71,4 +77,16 @@ welcbuttons: {
   height: 45,
   marginTop: 10,
 },
+forgotLink: {
+  color: "#3897f1",
+  textAlign: "center",
+  marginTop: 10,
+  marginBottom: 10
+},
+loginLink: {
+  color: "#3897f1",
+  textAlign: "center",
+  marginTop: 20,
+  marginBottom: 10
+}
 };

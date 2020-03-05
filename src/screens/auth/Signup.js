@@ -22,6 +22,7 @@ export default class Signup extends React.Component {
   registerUser = () => {
     try{
       const { email, password, passwordConfirmation } = this.state;
+      
       if(email === "" || password === "" || passwordConfirmation === ""){
         this.setState({error: "Please fill in all fields"})
       }else if(password !== passwordConfirmation){
@@ -71,9 +72,10 @@ export default class Signup extends React.Component {
             <Text style={styles.statusText}>{this.state.error}</Text>
             <TextInput nativeID="email" placeholder="email" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={email => this.setState({ email })} />
             <TextInput id="password" placeholder="password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
-            <TextInput id="repassword" placeholder="Confirm password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })}/>
+            <TextInput id="confirmPassword" placeholder="Confirm Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })}/>
+            <Text style={styles.loginLink} onPress={() => navigate('Login')}>Already have an account?</Text>
             <Button
-              buttonStyle={styles.loginButton}
+              buttonStyle={styles.signUpButton}
               onPress={() => this.registerUser()}
               title= "Create Account"
             />
