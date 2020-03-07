@@ -79,8 +79,14 @@ export default class  Login extends React.Component {
             />
             <Button
               buttonStyle={styles.fbLoginButton}
-              onPress={() => this.onFbLoginPress()}
+              onPress={() => Auth.federatedSignIn({ provider: 'Facebook'})}
               title="Login with Facebook"
+              color="#3897f1"
+            />
+            <Button
+              buttonStyle={styles.fbLoginButton}
+              onPress={() => Auth.federatedSignIn({ provider: 'Google'})}
+              title="Login with Google"
               color="#3897f1"
             />
           </View>
@@ -88,20 +94,6 @@ export default class  Login extends React.Component {
       </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     );
-  }
-
-  async onFbLoginPress() {
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(appId, {
-      permissions: ['public_profile', 'email'],
-    });
-    if (type === 'success') {
-      const response = await fetch(
-        `https://graph.facebook.com/me?access_token=${token}`);
-      Alert.alert(
-        'Logged in!',
-        `Hi ${(await response.json()).name}!`,
-      );
-    }
   }
 
 }

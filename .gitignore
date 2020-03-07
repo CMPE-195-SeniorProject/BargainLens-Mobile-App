@@ -1,3 +1,5 @@
+src/config.js
+
 # node
 node_modules/**/*
 .expo/*

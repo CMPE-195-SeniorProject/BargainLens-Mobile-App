@@ -45,7 +45,6 @@ export default class App extends Component {
   }
 
   render() {
-    console.log('here', this.state);
     //If user is not logged in show auth stack (SignIn/Register screens)
     if(!this.state.isAuthenticated) {
       return (<AuthNavigator screenProps={{ authenticate: this.setAuth.bind(this) }} />);
