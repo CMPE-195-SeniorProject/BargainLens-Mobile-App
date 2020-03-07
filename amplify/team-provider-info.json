@@ -1,41 +1,24 @@
 {
-    "mobile": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-bargainlens-mobile-222437-authRole",
-            "UnauthRoleArn": "arn:aws:iam::411601530338:role/amplify-bargainlens-mobile-222437-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::411601530338:role/amplify-bargainlens-mobile-222437-authRole",
-            "Region": "us-west-2",
-            "DeploymentBucketName": "amplify-bargainlens-mobile-222437-deployment",
-            "UnauthRoleName": "amplify-bargainlens-mobile-222437-unauthRole",
-            "StackName": "amplify-bargainlens-mobile-222437",
-            "StackId": "arn:aws:cloudformation:us-west-2:411601530338:stack/amplify-bargainlens-mobile-222437/abc90d80-53a9-11ea-9b7a-06cc4930f05a",
-            "AmplifyAppId": "d2g128di6p9rqn"
-        }
-    },
-    "dev": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-bargainlens-dev-05026-authRole",
-            "UnauthRoleArn": "arn:aws:iam::411601530338:role/amplify-bargainlens-dev-05026-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::411601530338:role/amplify-bargainlens-dev-05026-authRole",
-            "Region": "us-west-2",
-            "DeploymentBucketName": "amplify-bargainlens-dev-05026-deployment",
-            "UnauthRoleName": "amplify-bargainlens-dev-05026-unauthRole",
-            "StackName": "amplify-bargainlens-dev-05026",
-            "StackId": "arn:aws:cloudformation:us-west-2:411601530338:stack/amplify-bargainlens-dev-05026/0a9bb650-53be-11ea-a554-0222bb28abfe",
-            "AmplifyAppId": "dbhpwzo639zu5"
-        }
-    },
     "mobiledev": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-bargainlens-mobiledev-12922-authRole",
-            "UnauthRoleArn": "arn:aws:iam::411601530338:role/amplify-bargainlens-mobiledev-12922-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::411601530338:role/amplify-bargainlens-mobiledev-12922-authRole",
+            "AuthRoleName": "amplify-bargainlensmobileapp-mobiledev-212254-authRole",
+            "UnauthRoleArn": "arn:aws:iam::411601530338:role/amplify-bargainlensmobileapp-mobiledev-212254-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::411601530338:role/amplify-bargainlensmobileapp-mobiledev-212254-authRole",
             "Region": "us-west-2",
-            "DeploymentBucketName": "amplify-bargainlens-mobiledev-12922-deployment",
-            "UnauthRoleName": "amplify-bargainlens-mobiledev-12922-unauthRole",
-            "StackName": "amplify-bargainlens-mobiledev-12922",
-            "StackId": "arn:aws:cloudformation:us-west-2:411601530338:stack/amplify-bargainlens-mobiledev-12922/85a5dfb0-53c3-11ea-b379-06b8fd1f0384",
+            "DeploymentBucketName": "amplify-bargainlensmobileapp-mobiledev-212254-deployment",
+            "UnauthRoleName": "amplify-bargainlensmobileapp-mobiledev-212254-unauthRole",
+            "StackName": "amplify-bargainlensmobileapp-mobiledev-212254",
+            "StackId": "arn:aws:cloudformation:us-west-2:411601530338:stack/amplify-bargainlensmobileapp-mobiledev-212254/5e90d1f0-59ea-11ea-b275-02f021385fe8",
             "AmplifyAppId": "d10fx0q2fmydv6"
+        },
+        "categories": {
+            "auth": {
+                "Auth": {},
+                "AppAuth": {
+                    "facebookAppId": "3100330236857817",
+                    "googleClientId": "779980197810-nc2dog9btc0gqbik5vi32nmcgc9l6m9h.apps.googleusercontent.com"
+                }
+            }
         }
     }
 }

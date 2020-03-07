@@ -1,5 +1,9 @@
 {
-	"function": {},
-	"auth": {},
-	"api": {}
+    "auth": {
+        "AppAuth": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": []
+        }
+    }
 }
