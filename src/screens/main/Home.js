@@ -15,6 +15,7 @@ import { Base64 } from 'js-base64';
 import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-react-native';
 import * as mobilenet from '@tensorflow-models/mobilenet';
+import { decodeJpeg } from '@tensorflow/tfjs-react-native';
 
 export default class Home extends React.Component {
     constructor() {
@@ -112,9 +113,8 @@ export default class Home extends React.Component {
     */
     classifyImage = async () => {
         try {
-            const imageTensor = this.imageToTensor(this.state.image);
-
-            const predictions = await this.state.model.classify(imageTensor);
+            const { decodedJpeg } = this.state.image;
+            const predictions = await this.state.model.classify(this.state.image.data);
             this.setState({ predictions });
             console.log(predictions)
         } catch (error) {
@@ -204,45 +204,30 @@ export default class Home extends React.Component {
     }
 
     /**
-     * Take picture using back camera of device
+     * Take picture using back camera of device and convert raw image data into binary
      */
     takePicture = async () => {
         if (this.camera) {
             const data = await this.camera.takePictureAsync({base64: true})
-            const byteCharacters = Base64.atob(data.base64);
+            const byteCharacters = Base64.atob(data.base64);    //Convert Base64 into ASCII characters
             const byteNumbers = new Array(byteCharacters.length);
 
+            //Convert character into unicode
             for (let i = 0; i < byteCharacters.length; i++) {
                 byteNumbers[i] = byteCharacters.charCodeAt(i);
             }
             
-            const byteArray = new Uint8Array(byteNumbers);
+            const byteArray = new Uint8Array(byteNumbers); //Instantiate an array of bytes
+            const decodedJpeg = decodeJpeg(byteArray);  //Decode bytes into binary
 
             const image = {
-                data: byteArray,
+                data: decodedJpeg,
                 width: data.width,
                 height: data.height
             };
 
             this.setState({image: image});
-            this.classifyImage();
-
-
-            // if(data.base64.length % 4 === 0){
-            //     console.log('got em!');
-
-            //     const byteArray = toByteArray(data.base64);
-
-            //     const image = {
-            //         data: byteArray,
-            //         width: data.width,
-            //         height: data.height
-            //     };
-            //     this.setState({image: image});
-
-            //     this.classifyImage();
-            // } else { console.log('fail') }
-            //const imgBlob = new Blob(base64);  
+            this.classifyImage(); 
         }
     }
 }
