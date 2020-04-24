@@ -45,53 +45,41 @@ export default class  Login extends React.Component {
           // }
       }
   }
-  
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: null,
-      headerStyle: {
-        backgroundColor: '#77dd77',
-        borderColor: '#77dd77',
-        shadowColor: 'transparent',
-      },
-    };
-  };
 
   render() 
   {
     const { navigate, state } = this.props.navigation;
     return (
       <KeyboardAvoidingView style={styles.containerView} behavior="padding">
-
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.loginScreenContainer}>
-          <View style={styles.loginFormView}>
-            <Text style={styles.authHeaderText}>Welcome to BargainLens!</Text>
-            <Text style={styles.statusText}>{this.state.error}</Text>
-            <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={username => this.setState({ username })} />
-            <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
-            <Text style={styles.forgotLink} onPress={() => navigate('ForgotPassword')}>Forgot Password?</Text>
-            <Text style={styles.forgotLink} onPress={() => navigate('Signup')}>New user? Create Account</Text>
-            <Button
-              buttonStyle={styles.loginButton}
-              onPress={() => this.attemptSignIn()}
-              title="Login"
-            />
-            <Button
-              buttonStyle={styles.fbLoginButton}
-              onPress={() => Auth.federatedSignIn({ provider: 'Facebook'})}
-              title="Login with Facebook"
-              color="#3897f1"
-            />
-            <Button
-              buttonStyle={styles.fbLoginButton}
-              onPress={() => Auth.federatedSignIn({ provider: 'Google'})}
-              title="Login with Google"
-              color="#3897f1"
-            />
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.loginScreenContainer}>
+            <View style={styles.loginFormView}>
+              <Text style={styles.authHeaderText}>Welcome to BargainLens!</Text>
+              <Text style={styles.statusText}>{this.state.error}</Text>
+              <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={username => this.setState({ username })} />
+              <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
+              <Text style={styles.forgotLink} onPress={() => navigate('ForgotPassword')}>Forgot Password?</Text>
+              <Text style={styles.forgotLink} onPress={() => navigate('Signup')}>New user? Create Account</Text>
+              <Button
+                buttonStyle={styles.loginButton}
+                onPress={() => this.attemptSignIn()}
+                title="Login"
+              />
+              <Button
+                buttonStyle={styles.fbLoginButton}
+                onPress={() => Auth.federatedSignIn({ provider: 'Facebook'})}
+                title="Login with Facebook"
+                color="#3897f1"
+              />
+              <Button
+                buttonStyle={styles.fbLoginButton}
+                onPress={() => Auth.federatedSignIn({ provider: 'Google'})}
+                title="Login with Google"
+                color="#3897f1"
+              />
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     );
   }

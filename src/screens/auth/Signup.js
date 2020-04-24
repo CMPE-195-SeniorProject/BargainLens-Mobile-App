@@ -49,17 +49,6 @@ export default class Signup extends React.Component {
     }
   }
 
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: null, 
-      headerStyle: {
-        backgroundColor: '#77dd77',
-        borderColor: '#77dd77',
-        shadowColor: 'transparent',
-      },
-    };
-  };
-
   render() 
   {
     const { navigate, state } = this.props.navigation;
@@ -85,5 +74,4 @@ export default class Signup extends React.Component {
       </KeyboardAvoidingView>
     );
   }
-
 }

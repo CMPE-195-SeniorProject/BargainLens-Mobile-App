@@ -6,9 +6,9 @@ import Signup from '../screens/auth/Signup';
 import ForgotPassword from '../screens/auth/ForgotPassword';
 
 const Navigator = createStackNavigator({
-    Login: { screen: Login, headerShown: false },
-    Signup: { screen: Signup, headerShown: false },
-    ForgotPassword: { screen: ForgotPassword, headerShown: false }
+    Login: { screen: Login, navigationOptions: { headerShown: false} },
+    Signup: { screen: Signup, navigationOptions: { headerShown: false} },
+    ForgotPassword: { screen: ForgotPassword, navigationOptions: { headerShown: false} }
 });
 
 export default createAppContainer(Navigator);

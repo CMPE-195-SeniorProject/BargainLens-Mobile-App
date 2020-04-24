@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import styles from "../auth/style";
-import { Button, View, Text,TouchableOpacity,Platform } from 'react-native';
+import { Button, Dimensions, ImageBackground, Modal, Platform, Text, TouchableOpacity, View } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import { FontAwesome } from '@expo/vector-icons';
@@ -21,18 +21,14 @@ export default class Home extends React.Component {
     constructor() {
         super();
         this.state = {
-            email: "",
-            password: "",
-            emailVerification: false,
-            error: "",
-            user: {},
             image: null,
             model: null,
             prediction: null,
             isTfReady: false,
             isModelReady: false,
             hasPermission: null,
-            cameraType: Camera.Constants.Type.back
+            cameraType: Camera.Constants.Type.back,
+            error: ""
         }
         
         this.logout = this.logout.bind(this);
@@ -88,33 +84,30 @@ export default class Home extends React.Component {
     //-------------------- TENSORFLOW LOGIC -------------------------------------
     /**
      * Convert image to tensor format to be processed for inference
-     * input: image --> Raw image data (object)
+     * input: rawData --> Raw image data in Base64 format (String)
      * output: Tensor
     **/
-    imageToTensor = (image) => {
-        const { width, height, data } = image
+    imageToTensor = (rawData) => {
+        const byteCharacters = Base64.atob(rawData);    //Convert encoded data into ASCII characters
+        const byteNumbers = new Array(byteCharacters.length);
 
-        // Drop the alpha channel info for mobilenet
-        const buffer = new Uint8Array(width * height * 3)
-        let offset = 0 // offset into original data
-        for (let i = 0; i < buffer.length; i += 3) {
-          buffer[i] = data[offset]
-          buffer[i + 1] = data[offset + 1]
-          buffer[i + 2] = data[offset + 2]
-    
-          offset += 3
+        //Convert character into unicode
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
-
-        return tf.tensor3d(buffer, [height, width, 3]);
+        
+        const byteArray = new Uint8Array(byteNumbers); //Instantiate an array of bytes
+        return decodeJpeg(byteArray);  //Decode bytes into binary
     }
 
     /**
-    *Convert raw image data to tensor and use against model
+    *Convert raw image data to tensor and pass to model for prediction
     */
     classifyImage = async () => {
         try {
-            const { decodedJpeg } = this.state.image;
-            const predictions = await this.state.model.classify(this.state.image.data);
+            const { base64 } = this.state.image;
+            const tensor = this.imageToTensor(base64);   //Convert raw image data to tensor
+            const predictions = await this.state.model.classify(tensor);    //Pass tensor to model for prediction
             this.setState({ predictions });
             console.log(predictions)
         } catch (error) {
@@ -155,49 +148,54 @@ export default class Home extends React.Component {
   
     render() {
         const { navigate, state } = this.props.navigation
-        const { isTfReady, isModelReady, prediction, image, hasPermission, model } = this.state
+        const { cameraType, isTfReady, isModelReady, prediction, image, hasPermission, model } = this.state
 
         if (hasPermission === null || isTfReady === false || isModelReady == false || model === null) {
-            return <View />;
+            return <View />; //First condition should be a loading screen
         } else if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
+            return <Text>No access to camera</Text>;
         } else {
             return (
                 <View style={{ flex: 1 }}>
-                    <Camera style={{ flex: 1 }} type={this.state.cameraType}  ref={ref => {this.camera = ref}}>
-                        <View style={{flex:1, flexDirection:"row", justifyContent:"space-between", margin:30}}>
-                            <TouchableOpacity
-                                style={{
-                                    alignSelf: 'flex-end',
-                                    alignItems: 'center',
-                                    backgroundColor: 'transparent',
-                                    backgroundColor: '#fff',
-                                    borderRadius: 5               
-                                }}
-                            >
-                                <Button
-                                    buttonStyle = {styles.logoutButton}
-                                    onPress={() => this.logout()}
-                                    title = "Logout"
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{
-                                    flex: 1, 
-                                    flexDirection: 'row',
-                                    justifyContent: 'center',
-                                    alignItems: 'flex-end',
-                                    backgroundColor: '#transparent',
-                                }}
-                                onPress = {()=>this.takePicture()}
-                            >
-                                <FontAwesome
-                                    name="camera"
-                                    style={{ color: "#fff", fontSize: 40}}
-                                />
-                            </TouchableOpacity>  
-                        </View>
-                    </Camera>
+                    {image === null ?
+                        //Display Camera if no picture is set
+                        (<Camera style={{ flex: 1 }} type={cameraType}  ref={ref => {this.camera = ref}}>
+                            <View style={{flex: 1, flexDirection: "row", justifyContent: "space-between", margin: 30}}>
+                                <TouchableOpacity style={styles.logoutButtonContainer}>
+                                    <Button
+                                        buttonStyle = {styles.logoutButton}
+                                        onPress={() => this.logout()}
+                                        title = "Logout"
+                                    />
+                                </TouchableOpacity>
+                                <TouchableOpacity 
+                                    style={styles.cameraButtonContainer} 
+                                    onPress = {()=>this.takePicture()}
+                                >
+                                    <FontAwesome
+                                        name="camera"
+                                        style={styles.cameraButton}
+                                    />
+                                </TouchableOpacity>  
+                            </View>
+                        </Camera>)
+                        //Display picture of photo taken 
+                        : (<ImageBackground source={{uri: image.uri}} style={{ height: Dimensions.get('window').height, width: Dimensions.get('window').width}}>
+                                <View  style={styles.buttonContainer}>
+                                    <Button
+                                        buttonStyle={{postion: 'absolute', bottom: 0 }}
+                                        color='red'
+                                        onPress={() => this.setState({ image: null })}
+                                        title="Retake"
+                                    />
+                                    <Button
+                                        buttonStyle = {{postion: 'absolute', bottom: 0}}
+                                        color='green'
+                                        onPress={() => this.classifyImage()}
+                                        title="Accept"
+                                    />
+                                </View>
+                            </ImageBackground>)}
                 </View>
             );
         }
@@ -208,26 +206,10 @@ export default class Home extends React.Component {
      */
     takePicture = async () => {
         if (this.camera) {
-            const data = await this.camera.takePictureAsync({base64: true})
-            const byteCharacters = Base64.atob(data.base64);    //Convert Base64 into ASCII characters
-            const byteNumbers = new Array(byteCharacters.length);
-
-            //Convert character into unicode
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-            
-            const byteArray = new Uint8Array(byteNumbers); //Instantiate an array of bytes
-            const decodedJpeg = decodeJpeg(byteArray);  //Decode bytes into binary
-
-            const image = {
-                data: decodedJpeg,
-                width: data.width,
-                height: data.height
-            };
-
-            this.setState({image: image});
-            this.classifyImage(); 
+            const data = await this.camera.takePictureAsync({base64: true});
+            const image = { ...data };
+            this.setState({ image });
         }
     }
 }
+
