@@ -8,7 +8,7 @@ import { Button, Dimensions, ImageBackground, Modal, Platform, Text, TouchableOp
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import { FontAwesome } from '@expo/vector-icons';
-import { Auth } from 'aws-amplify';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { Base64 } from 'js-base64'; 
 
 //TensorFlow Modules
@@ -17,10 +17,29 @@ import '@tensorflow/tfjs-react-native';
 import * as mobilenet from '@tensorflow-models/mobilenet';
 import { decodeJpeg } from '@tensorflow/tfjs-react-native';
 
+//Database query to fetch stores and inventory
+const query = `
+    query {
+        listStores{
+        items{
+            name
+            inventory{
+            items{
+                name
+                price
+            }
+            }
+        }
+        }
+    }
+`
+
 export default class Home extends React.Component {
+
     constructor() {
         super();
         this.state = {
+            database: null,
             image: null,
             model: null,
             prediction: null,
@@ -128,8 +147,16 @@ export default class Home extends React.Component {
         )
     }
     
-    //Get permission to access camera and then load Tensorflow and model
+    //Fetch store data, get permission to access camera, load Tensorflow and model
     async componentDidMount() {
+        await API.graphql(graphqlOperation(query))
+            .then( database => {
+                this.setState({ database });
+                console.log("Database loaded");
+                console.log(data);
+            })
+            .catch(err => console.log("Database failed to load: ", err));
+
         await this.getPermissionAsync();
 
         await tf.ready()
