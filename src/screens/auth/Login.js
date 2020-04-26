@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./style";
-import { Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView } from 'react-native';
+import { Keyboard, Text, View, Modal, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, ImageBackground, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class  Login extends React.Component {
   constructor() {
@@ -10,12 +11,13 @@ export default class  Login extends React.Component {
     this.state = {
       email: "",
       password: "",
-      emailVerification: false,
+      showModal: false,
       error: "",
       user: {}
     };
 
     this.attemptSignIn = this.attemptSignIn.bind(this);
+    this.resendConfirmationEmail = this.resendConfirmationEmail.bind(this);
   }
 
   attemptSignIn = async () => {
@@ -26,72 +28,97 @@ export default class  Login extends React.Component {
           this.setState({ user });
           this.props.screenProps.authenticate(true);
       } catch (err) {
-        console.log(err);
-        this.setState({error: err.message});
-          // if (err.code === 'UserNotConfirmedException') {
-          //     // The error happens if the user didn't finish the confirmation step when signing up
-          //     // In this case you need to resend the code and confirm the user
-          //     // About how to resend the code and confirm the user, please check the signUp part
-          // } else if (err.code === 'PasswordResetRequiredException') {
-          //     // The error happens when the password is reset in the Cognito console
-          //     // In this case you need to call forgotPassword to reset the password
-          //     // Please check the Forgot Password part.
-          // } else if (err.code === 'NotAuthorizedException') {
-          //     // The error happens when the incorrect password is provided
-          // } else if (err.code === 'UserNotFoundException') {
+        console.log("Catch: ",err);
+        if (err.code === 'UserNotConfirmedException') {
+          this.setState({ showModal: true }); //Set true to make modal visible
+        } else if (err.code === 'UserNotFoundException') {
+               // The error happens when the incorrect password is provided
+               this.setState({error: "Incorrect username or password"});
+          }
+        else {
+          this.setState({error: "Invalid Input"});
+        }// else if (err.code === 'UserNotFoundException') {
           //     // The error happens when the supplied username/email does not exist in the Cognito user pool
-          // } else {
-          //     console.log(err);
-          // }
       }
   }
-  
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: null,
-      headerStyle: {
-        backgroundColor: '#77dd77',
-        borderColor: '#77dd77',
-        shadowColor: 'transparent',
-      },
-    };
-  };
+
+  resendConfirmationEmail = async () => {
+    try {
+      await Auth.resendSignUp(this.state.username);
+      console.log('code resent succesfully');
+    } catch (err) {
+      console.log("Unable to send email\nError: ", err);
+    }  
+  }
 
   render() 
   {
     const { navigate, state } = this.props.navigation;
+    const { showModal } = this.state;
+
     return (
       <KeyboardAvoidingView style={styles.containerView} behavior="padding">
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ImageBackground source={ require('../../../assets/background.png')} style={styles.loginScreenContainer}>
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={showModal}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={{textAlign: "center", fontSize: 18, fontWeight: "bold"}}>Check email for confirmation email and try loggin in again</Text>
+                  <Text style={styles.resendConfirmationEmailLink} onPress={()=>this.resendConfirmationEmail()}>
+                    Click here to resend confirmation email
+                  </Text>
+                  <Button
+                    title="Close"
+                    backgroundColor="red"
+                    buttonStyle={{marginTop:25}}
+                    onPress={() => this.setState({showModal:false})}
+                  />
+                </View>
+              </View>
+            </Modal>
+            <View>
+                <Text style={styles.authHeaderText}>BargainLens</Text>
+            </View>
+            <View style={styles.loginFormView}>
 
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.loginScreenContainer}>
-          <View style={styles.loginFormView}>
-            <Text style={styles.authHeaderText}>Welcome to BargainLens!</Text>
-            <Text style={styles.statusText}>{this.state.error}</Text>
-            <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={username => this.setState({ username })} />
-            <TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
-            <Text style={styles.forgotLink} onPress={() => navigate('ForgotPassword')}>Forgot Password?</Text>
-            <Text style={styles.forgotLink} onPress={() => navigate('Signup')}>New user? Create Account</Text>
-            <Button
-              buttonStyle={styles.loginButton}
-              onPress={() => this.attemptSignIn()}
-              title="Login"
-            />
-            <Button
-              buttonStyle={styles.fbLoginButton}
-              onPress={() => Auth.federatedSignIn({ provider: 'Facebook'})}
-              title="Login with Facebook"
-              color="#3897f1"
-            />
-            <Button
-              buttonStyle={styles.fbLoginButton}
-              onPress={() => Auth.federatedSignIn({ provider: 'Google'})}
-              title="Login with Google"
-              color="#3897f1"
-            />
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
+              <Text style={styles.statusText}>{this.state.error}</Text>
+              <TextInput placeholder="Username" style={styles.loginFormTextInput} onChangeText={username => this.setState({ username })} />
+              <TextInput placeholder="Password" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
+              <Text style={styles.forgotLink} onPress={() => navigate('ForgotPassword')}>Forgot Password?</Text>
+              <Text style={styles.forgotLink} onPress={() => navigate('Signup')}>New user? Create Account</Text>
+              <Button
+                buttonStyle={styles.loginButton}
+                onPress={() => this.attemptSignIn()}
+                title="Login"
+              />
+              <View style={{flexDirection: 'row', alignSelf: 'center', padding: 30}}>
+                {/* <Button
+                  buttonStyle={styles.fbLoginButton}
+                  onPress={() => Auth.federatedSignIn({ provider: 'Facebook'})}
+                  title="Login with Facebook"
+                  color="#3897f1"
+                />
+                <Button#000000
+                  buttonStyle={styles.fbLoginButton}
+                  onPress={() => Auth.federatedSignIn({ provider: 'Google'})}
+                  title="Login with Google"
+                  color="#3897f1"
+                /> */}
+                <TouchableOpacity onPress={() => Auth.federatedSignIn({ provider: 'Google'})}>
+                  <Image source={require('../../../assets/google_icon.png')} style={styles.googleButton}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => Auth.federatedSignIn({ provider: 'Facebook'})}>
+                  <Image source={require('../../../assets/facebook_icon.png')} style={styles.fbButton}/>
+                </TouchableOpacity>
+              </View>
+
+            </View>
+          </ImageBackground>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     );
   }

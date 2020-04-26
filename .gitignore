@@ -1,4 +1,5 @@
-src/config.js
+src/confgig.js
+./src/graphql/notes.js
 
 # node
 node_modules/**/*

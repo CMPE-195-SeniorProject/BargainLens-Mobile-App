@@ -26,13 +26,11 @@ export default class Signup extends React.Component {
         const { email, passwordReset } = this.state;
         await Auth.forgotPassword(email)
             .then(data => {
-                console.log(data);
                 this.setState({ passwordReset: true});
             })
             .catch(err => console.log(err));
     }catch (err) {
-      //Let's redirect user to an error page here
-      console.log("In here: " + err);
+      //Use error message to redirect user to an error page here
       this.setState({error: err.message})
     }
   }
@@ -40,7 +38,7 @@ export default class Signup extends React.Component {
   confirmPassword = async () => {
     try{
         const { email, confirmationCode, newPassword, passwordConfirmation} = this.state;
-        console.log('state', this.state);
+
         // Collect confirmation code and new password, then
         if(newPassword == passwordConfirmation){
             await Auth.forgotPasswordSubmit(email, confirmationCode, newPassword)
@@ -52,21 +50,9 @@ export default class Signup extends React.Component {
         }
     }catch (err) {
       //Let's redirect user to an error page here
-      console.log("In here: " + err);
       this.setState({error: err.message})
     }
   }
-
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: null, 
-      headerStyle: {
-        backgroundColor: '#77dd77',
-        borderColor: '#77dd77',
-        shadowColor: 'transparent',
-      },
-    };
-  };
 
   render() 
   {
