@@ -39,7 +39,7 @@ export default class Home extends React.Component {
     constructor() {
         super();
         this.state = {
-            database: null,
+            stores: null,
             image: null,
             model: null,
             prediction: null,
@@ -151,9 +151,10 @@ export default class Home extends React.Component {
     async componentDidMount() {
         await API.graphql(graphqlOperation(query))
             .then( database => {
-                this.setState({ database });
+                const stores = database.data.listStores.items;
+                this.setState({ stores });
                 console.log("Database loaded");
-                console.log(data);
+                console.log(stores);
             })
             .catch(err => console.log("Database failed to load: ", err));
 
