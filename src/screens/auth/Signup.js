@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./style";
-import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView} from 'react-native';
+import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, ImageBackground} from 'react-native';
 import { Button } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
 
@@ -55,13 +55,15 @@ export default class Signup extends React.Component {
     return (
       <KeyboardAvoidingView style={styles.containerView} behavior="padding">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.loginScreenContainer}>
-          <View style={styles.loginFormView}>
-            <Text style={styles.authHeaderText}>Sign Up</Text>
+        <ImageBackground source={ require('../../../assets/background.png')} style={styles.loginScreenContainer}>
+          <View>
+            <Text style={styles.authHeaderText}>Create Account</Text>
+          </View>
+          <View style={styles.registerFormView}>
             <Text style={styles.statusText}>{this.state.error}</Text>
-            <TextInput nativeID="email" placeholder="email" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={email => this.setState({ email })} />
-            <TextInput id="password" placeholder="password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
-            <TextInput id="confirmPassword" placeholder="Confirm Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })}/>
+            <TextInput nativeID="email" placeholder="email" style={styles.loginFormTextInput} onChangeText={email => this.setState({ email })} />
+            <TextInput id="password" placeholder="password" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
+            <TextInput id="confirmPassword" placeholder="Confirm Password" placeholderColor="#2b2b2b" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })}/>
             <Text style={styles.loginLink} onPress={() => navigate('Login')}>Already have an account?</Text>
             <Button
               buttonStyle={styles.signUpButton}
@@ -69,7 +71,7 @@ export default class Signup extends React.Component {
               title= "Create Account"
             />
           </View>
-        </View>
+        </ImageBackground>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     );
