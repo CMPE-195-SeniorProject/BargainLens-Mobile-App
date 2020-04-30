@@ -14,10 +14,7 @@
         "categories": {
             "auth": {
                 "Auth": {},
-                "AppAuth": {
-                    "facebookAppId": "3100330236857817",
-                    "googleClientId": "779980197810-nc2dog9btc0gqbik5vi32nmcgc9l6m9h.apps.googleusercontent.com"
-                }
+                "AppAuth": {}
             }
         }
     }
