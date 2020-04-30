@@ -1,12 +1,6 @@
-type Store @model {
-  id: ID!
-  name: String!
-  inventory: [Item] @connection(name: "StoreItem", sortField: "name")
-}
-
 type Item @model {
   id: ID!
   name: String!
   price: Float!
-  store: Store @connection(name: "StoreItem", sortField: "name")
+  store: String!
 }
