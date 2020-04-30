@@ -234,5 +234,57 @@ export default {
   welcomeScreenContainer: {
     flex: 1,
     backgroundColor: '#fff',
-  }
+  },
+  resultPage: {
+    color: "#000000",
+    //backgroundColor: "transparent",
+    justifyContent: 'center',
+    width:200,
+    alignSelf: "center",
+    textAlign: "center",
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 24,
+    fontFamily: 'monospace',
+  },
+  ResultsForm: {
+    marginTop: 80,
+    width: width-(width*.05),
+    height: height - (height * 0.2),
+    justifyContent: 'center',
+    backgroundColor: '#f0eae8',
+    opacity: 0.7,
+    borderRadius: 50,
+    //backgroundColor: 'transparent'
+  },
+  backToHome: {
+    backgroundColor: '#3897f1',
+    borderRadius: 50,
+    //height: 45,
+    marginTop: 10,
+    position: 'absolute', 
+    top: 0, 
+    //left: 10,
+  },
+  ResultHeader: {
+    color: "#000000",
+    //backgroundColor: "transparent",
+    justifyContent: 'center',
+    width:200,
+    alignSelf: "center",
+    textAlign: "center",
+    marginTop: 10,
+    marginBottom: 10,
+    fontSize: 24,
+    fontWeight: 'bold',
+    fontFamily: 'monospace',
+  },
+  ResultBackButton: {
+    width:50, 
+    height: 40,
+    marginRight: 20,
+    alignSelf: 'flex-end',
+    marginTop: -10,
+    position: 'absolute'
+  },
 };

@@ -4,7 +4,7 @@
  */
 import React from 'react';
 import styles from "../auth/style";
-import { Button, Dimensions, ImageBackground, Modal, Platform, Text, TouchableOpacity, View } from 'react-native';
+import {Button,Dimensions, ImageBackground, ActivityIndicator, Colors , Platform, Text, TouchableOpacity, View } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import { FontAwesome } from '@expo/vector-icons';
@@ -30,7 +30,7 @@ export default class Home extends React.Component {
             isModelReady: false,
             hasPermission: null,
             cameraType: Camera.Constants.Type.back,
-            error: ""
+            error: "",
         }
         
         this.logout = this.logout.bind(this);
@@ -108,10 +108,10 @@ export default class Home extends React.Component {
     classifyImage = async () => {
         try {
             const { base64 } = this.state.image;
-            const tensor = this.imageToTensor(base64);   //Convert raw image data to tensor
-            const predictions = await this.state.model.classify(tensor);    //Pass tensor to model for prediction
-            this.setState({ predictions });
-            console.log(predictions)
+            const tensor = this.imageToTensor(base64); //Convert raw image data to tensor
+            const predictions = await this.state.model.classify(tensor); //Pass tensor to model for prediction
+            //changes prediction state and passes the tensor array to index 0 
+            this.setState({prediction: JSON.stringify(predictions[0].className).slice(1,-1)}); 
         } catch (error) {
             console.log(error);
         }
@@ -185,7 +185,7 @@ export default class Home extends React.Component {
         const { cameraType, isTfReady, isModelReady, prediction, image, hasPermission, model } = this.state
 
         if (hasPermission === null || isTfReady === false || isModelReady == false || model === null) {
-            return <View />; //First condition should be a loading screen
+            return <View/>; //First condition should be a loading screen
         } else if (hasPermission === false) {
             return <Text>No access to camera</Text>;
         } else {
@@ -216,12 +216,14 @@ export default class Home extends React.Component {
                         //Display picture of photo taken 
                         : (<ImageBackground source={{uri: image.uri}} style={{ height: Dimensions.get('window').height, width: Dimensions.get('window').width}}>
                                 <View  style={styles.buttonContainer}>
+                                    
                                     <Button
-                                        buttonStyle={{postion: 'absolute', bottom: 0 }}
+                                        buttonStyle = {{postion: 'absolute', bottom: 0 }}
                                         color='red'
                                         onPress={() => this.setState({ image: null })}
                                         title="Retake"
                                     />
+                                    {/*Calls the classifyImage() function so the picture can get processed to TensorFlow*/}
                                     <Button
                                         buttonStyle = {{postion: 'absolute', bottom: 0}}
                                         color='green'
@@ -230,6 +232,19 @@ export default class Home extends React.Component {
                                             await this.getItems(this.state.prediction); //make sure only the name of the item is passed here
                                         }}
                                         title="Accept"
+                                        color= 'green'
+                                        title= "Accept"
+                                    />  
+                                    {/*Sends the prediction over to the Result.js*/}
+                                    <Button
+                                        buttonStyle = {{postion: 'absolute', bottom: 0}}
+                                        color='white'
+                                        title = "Results"
+                                        onPress={() =>  
+                                            this.props.navigation.navigate('Result', {  
+                                                callFunction: this.state.prediction,
+                                            })  
+                                        }  
                                     />
                                 </View>
                             </ImageBackground>)}
@@ -249,4 +264,3 @@ export default class Home extends React.Component {
         }
     }
 }
-
