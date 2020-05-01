@@ -117,19 +117,6 @@ export default class Home extends React.Component {
         }
     }
 
-    /**
-     * Create a text component to render results of prediction
-     * input: prediction (Object)
-     * output: Text Component
-     */
-    renderPrediction = prediction => {
-        return (
-          <Text key={prediction.className} style={styles.text}>
-            {prediction.className}
-          </Text>
-        )
-    }
-
     //-------------------- DATABASE QUERY -------------------------------------
     /**
      * Query items from database based on prediction
@@ -155,9 +142,7 @@ export default class Home extends React.Component {
         await API.graphql(graphqlOperation(query))
             .then( result => {
                 const items = result.data.listItems.items;
-                this.setState({ items });
-                console.log("Items queried");
-                console.log(items);
+                this.setState({ items }); //list of all the apples
             })
             .catch(err => console.log("Database failed to load: ", err));
     }
@@ -229,7 +214,7 @@ export default class Home extends React.Component {
                                         color='green'
                                         onPress={async () => {
                                             await this.classifyImage();
-                                            await this.getItems(this.state.prediction); //make sure only the name of the item is passed here
+                                            await this.getItems();
                                         }}
                                         title="Accept"
                                         color= 'green'
@@ -242,7 +227,8 @@ export default class Home extends React.Component {
                                         title = "Results"
                                         onPress={() =>  
                                             this.props.navigation.navigate('Result', {  
-                                                callFunction: this.state.prediction,
+                                                items: this.state.items, 
+                                                result: this.state.prediction
                                             })  
                                         }  
                                     />
