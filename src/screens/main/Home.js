@@ -17,29 +17,12 @@ import '@tensorflow/tfjs-react-native';
 import * as mobilenet from '@tensorflow-models/mobilenet';
 import { decodeJpeg } from '@tensorflow/tfjs-react-native';
 
-//Database query to fetch stores and inventory
-const query = `
-    query {
-        listStores{
-        items{
-            name
-            inventory{
-            items{
-                name
-                price
-            }
-            }
-        }
-        }
-    }
-`
-
 export default class Home extends React.Component {
 
     constructor() {
         super();
         this.state = {
-            stores: null,
+            items: null,
             image: null,
             model: null,
             prediction: null,
@@ -146,18 +129,41 @@ export default class Home extends React.Component {
           </Text>
         )
     }
-    
-    //Fetch store data, get permission to access camera, load Tensorflow and model
-    async componentDidMount() {
+
+    //-------------------- DATABASE QUERY -------------------------------------
+    /**
+     * Query items from database based on prediction
+     * input: item (String)
+     * output: void
+     */
+    getItems = async (item) => {
+        //Database query to fetch list of items
+        const query =  `
+            query listItems {
+                listItems(filter:{ name:{
+                    eq:${item}
+                }}){
+                items{
+                    id
+                    name
+                    price
+                    store
+                    }
+                }
+                }
+        `
         await API.graphql(graphqlOperation(query))
-            .then( database => {
-                const stores = database.data.listStores.items;
-                this.setState({ stores });
-                console.log("Database loaded");
-                console.log(stores);
+            .then( result => {
+                const items = result.data.listItems.items;
+                this.setState({ items });
+                console.log("Items queried");
+                console.log(items);
             })
             .catch(err => console.log("Database failed to load: ", err));
+    }
 
+    //Fetch store data, get permission to access camera, load Tensorflow and model
+    async componentDidMount() {
         await this.getPermissionAsync();
 
         await tf.ready()
@@ -219,7 +225,10 @@ export default class Home extends React.Component {
                                     <Button
                                         buttonStyle = {{postion: 'absolute', bottom: 0}}
                                         color='green'
-                                        onPress={() => this.classifyImage()}
+                                        onPress={async () => {
+                                            await this.classifyImage();
+                                            await this.getItems(this.state.prediction); //make sure only the name of the item is passed here
+                                        }}
                                         title="Accept"
                                     />
                                 </View>
