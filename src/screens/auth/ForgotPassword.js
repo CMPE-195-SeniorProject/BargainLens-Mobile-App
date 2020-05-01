@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./style";
-import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView} from 'react-native';
+import {Keyboard, Text, View, Modal, TextInput, TouchableWithoutFeedback, ImageBackground, KeyboardAvoidingView} from 'react-native';
 import { Button } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
 
@@ -14,6 +14,7 @@ export default class Signup extends React.Component {
       passwordConfirmation: "",
       confirmationCode: "",
       passwordReset: false,
+      showModal: false,
       error: ""
     };
 
@@ -26,9 +27,9 @@ export default class Signup extends React.Component {
         const { email, passwordReset } = this.state;
         await Auth.forgotPassword(email)
             .then(data => {
-                this.setState({ passwordReset: true});
+                this.setState({ passwordReset: true, showModal: true, error: "" });
             })
-            .catch(err => console.log(err));
+            .catch(err => this.setState({error: err.message}));
     }catch (err) {
       //Use error message to redirect user to an error page here
       this.setState({error: err.message})
@@ -43,7 +44,7 @@ export default class Signup extends React.Component {
         if(newPassword == passwordConfirmation){
             await Auth.forgotPasswordSubmit(email, confirmationCode, newPassword)
                 .then(data => this.props.navigation.navigate('Login'))
-                .catch(err => console.log('error', err));
+                .catch(err => this.setState({error: err.message}));
         }
         else{
             this.setState({ error: "Passwords do not match" })
@@ -57,53 +58,66 @@ export default class Signup extends React.Component {
   render() 
   {
     const { navigate, state } = this.props.navigation;
+    const { passwordReset, showModal } = this.state
 
-    if(!this.state.passwordReset){
-        return (
-            <KeyboardAvoidingView style={styles.containerView} behavior="padding">
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <View style={styles.loginScreenContainer}>
-                <View style={styles.loginFormView}>
-                  <Text style={styles.authHeaderText}>Reset Password</Text>
-                  <Text style={styles.statusText}>{this.state.error}</Text>
-                  <Text style={styles.statusText}>Email*</Text>
-                  <TextInput nativeID="email" placeholder="email" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={email => this.setState({ email })} />
+    return (
+      <KeyboardAvoidingView style={styles.containerView} behavior="padding">
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ImageBackground source={ require('../../../assets/background.png')} style={styles.loginScreenContainer}>
+        <Modal
+              animationType="fade"
+              transparent={true}
+              visible={showModal}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.resetNotificationView}>
+                  <Text style={{textAlign: "center", fontSize: 18, fontWeight: "bold"}}>Check email for verification code</Text>
                   <Button
-                    buttonStyle={styles.signUpButton}
-                    onPress={() => this.resetPassword()}
-                    title= "Continue"
+                    title="Close"
+                    backgroundColor="#e92b2b"
+                    buttonStyle={{marginTop:55, borderRadius: 10}}
+                    onPress={() => this.setState({showModal:false})}
                   />
                 </View>
               </View>
-              </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
-          );
-    }
-    else {
-        return(
-            <KeyboardAvoidingView style={styles.containerView} behavior="padding">
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.loginScreenContainer}>
-                        <View style={styles.loginFormView}>
-                            <Text style={styles.authHeaderText}>Reset Password</Text>
-                            <Text style={styles.statusText}>{this.state.error}</Text>
-                            <Text style={styles.statusText}>New Password*</Text>
-                            <TextInput nativeID="newPassword" placeholder="New Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={newPassword => this.setState({ newPassword })} />
-                            <Text style={styles.statusText}>Confirm Password*</Text>
-                            <TextInput nativeID="confirmPassword" placeholder="Confirm Password" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })} />
-                            <Text style={styles.statusText}>Verification Code*</Text>
-                            <TextInput nativeID="confirmationCode" placeholder="Code" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={confirmationCode => this.setState({ confirmationCode })} />
-                            <Button
-                            buttonStyle={styles.signUpButton}
-                            onPress={() => this.confirmPassword()}
-                            title= "Continue"
-                            />
-                        </View>
-                    </View>
-                </TouchableWithoutFeedback>
-            </KeyboardAvoidingView>
-        );
-    }
+            </Modal>
+          <View>
+            <Text style={styles.authHeaderText}>{!passwordReset ? 'Forgot Password' : 'Reset Password'}</Text>
+          </View>
+          {!passwordReset
+            //Form to enter email
+            ?(<View style={styles.forgotPasswordFormView}>
+                <Text style={styles.statusText}>{this.state.error}</Text>
+                <TextInput nativeID="email" placeholder="email" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={email => this.setState({ email })} />
+                <Button
+                  buttonStyle={styles.signUpButton}
+                  onPress={() => this.resetPassword()}
+                  title= "Continue"
+                />
+                <Button
+                  buttonStyle={styles.signUpButton}
+                  onPress={() => this.props.navigation.navigate('Login')}
+                  title= "Go Back"
+                />
+              </View>)
+              //Form to enter new password
+              :(<View style={styles.loginScreenContainer}>
+                  <View style={styles.resetPasswordFormView}>
+                      <Text style={styles.statusText}>{this.state.error}</Text>
+                      <TextInput nativeID="newPassword" placeholder="New Password" secureTextEntry={true} style={styles.loginFormTextInput} onChangeText={newPassword => this.setState({ newPassword })} />
+                      <TextInput nativeID="confirmPassword" placeholder="Confirm Password" secureTextEntry={true} style={styles.loginFormTextInput} onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })} />
+                      <TextInput nativeID="confirmationCode" placeholder="Code" style={styles.loginFormTextInput} onChangeText={confirmationCode => this.setState({ confirmationCode })} />
+                      <Button
+                      buttonStyle={styles.signUpButton}
+                      onPress={() => this.confirmPassword()}
+                      title= "Continue"
+                      />
+                  </View>
+                </View>)
+          }
+        </ImageBackground>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    );
   }
-
 }

@@ -67,14 +67,14 @@ export default class  Login extends React.Component {
             >
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <Text style={{textAlign: "center", fontSize: 18, fontWeight: "bold"}}>Check email for confirmation email and try loggin in again</Text>
+                  <Text style={{textAlign: "center", fontSize: 18, fontWeight: "bold"}}>Check email for confirmation link and try loggin in again</Text>
                   <Text style={styles.resendConfirmationEmailLink} onPress={()=>this.resendConfirmationEmail()}>
                     Click here to resend confirmation email
                   </Text>
                   <Button
                     title="Close"
-                    backgroundColor="red"
-                    buttonStyle={{marginTop:25}}
+                    backgroundColor="#e92b2b"
+                    buttonStyle={{marginTop:25, borderRadius: 10}}
                     onPress={() => this.setState({showModal:false})}
                   />
                 </View>
@@ -96,18 +96,6 @@ export default class  Login extends React.Component {
                 title="Login"
               />
               <View style={{flexDirection: 'row', alignSelf: 'center', padding: 30}}>
-                {/* <Button
-                  buttonStyle={styles.fbLoginButton}
-                  onPress={() => Auth.federatedSignIn({ provider: 'Facebook'})}
-                  title="Login with Facebook"
-                  color="#3897f1"
-                />
-                <Button#000000
-                  buttonStyle={styles.fbLoginButton}
-                  onPress={() => Auth.federatedSignIn({ provider: 'Google'})}
-                  title="Login with Google"
-                  color="#3897f1"
-                /> */}
                 <TouchableOpacity onPress={() => Auth.federatedSignIn({ provider: 'Google'})}>
                   <Image source={require('../../../assets/google_icon.png')} style={styles.googleButton}/>
                 </TouchableOpacity>
