@@ -77,6 +77,24 @@ export default {
     borderRadius: 50,
     //backgroundColor: 'transparent'
   },
+  forgotPasswordFormView: {
+    marginTop: 80,
+    width: width-(width*.05),
+    height: height-(height*.68),
+    //justifyContent: 'center',
+    backgroundColor: '#000000c9',
+    borderRadius: 50,
+    //backgroundColor: 'transparent'
+  },
+  resetPasswordFormView: {
+    marginTop: 80,
+    width: width-(width*.05),
+    height: height-(height*.60),
+    //justifyContent: 'center',
+    backgroundColor: '#000000c9',
+    borderRadius: 50,
+    //backgroundColor: 'transparent'
+  },
   loginFormTextInput: {
     height: 43,
     width: width-(width*.2),
@@ -140,7 +158,24 @@ export default {
   modalView: {
     margin: 20,
     height: 250,
-    backgroundColor: "white",
+    backgroundColor: "#757070f5",
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  resetNotificationView: {
+    margin: 20,
+    height: 200,
+    backgroundColor: "#766f6feb",
     borderRadius: 10,
     borderWidth: 1,
     padding: 35,
