@@ -86,8 +86,8 @@ export default class  Login extends React.Component {
             <View style={styles.loginFormView}>
 
               <Text style={styles.statusText}>{this.state.error}</Text>
-              <TextInput placeholder="Username" style={styles.loginFormTextInput} onChangeText={username => this.setState({ username })} />
-              <TextInput placeholder="Password" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
+              <TextInput placeholder="Username" style={styles.loginFormTextInput} placeholderTextColor = "white" onChangeText={username => this.setState({ username })} />
+              <TextInput placeholder="Password" style={styles.loginFormTextInput} placeholderTextColor = "white" secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
               <Text style={styles.forgotLink} onPress={() => navigate('ForgotPassword')}>Forgot Password?</Text>
               <Text style={styles.forgotLink} onPress={() => navigate('Signup')}>New user? Create Account</Text>
               <Button

@@ -88,7 +88,7 @@ export default class Signup extends React.Component {
             //Form to enter email
             ?(<View style={styles.forgotPasswordFormView}>
                 <Text style={styles.statusText}>{this.state.error}</Text>
-                <TextInput nativeID="email" placeholder="email" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={email => this.setState({ email })} />
+                <TextInput nativeID="email" placeholder="email" placeholderColor="#c4c3cb"  placeholderTextColor = "white" style={styles.loginFormTextInput} onChangeText={email => this.setState({ email })} />
                 <Button
                   buttonStyle={styles.signUpButton}
                   onPress={() => this.resetPassword()}
@@ -104,9 +104,9 @@ export default class Signup extends React.Component {
               :(<View style={styles.loginScreenContainer}>
                   <View style={styles.resetPasswordFormView}>
                       <Text style={styles.statusText}>{this.state.error}</Text>
-                      <TextInput nativeID="newPassword" placeholder="New Password" secureTextEntry={true} style={styles.loginFormTextInput} onChangeText={newPassword => this.setState({ newPassword })} />
-                      <TextInput nativeID="confirmPassword" placeholder="Confirm Password" secureTextEntry={true} style={styles.loginFormTextInput} onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })} />
-                      <TextInput nativeID="confirmationCode" placeholder="Code" style={styles.loginFormTextInput} onChangeText={confirmationCode => this.setState({ confirmationCode })} />
+                      <TextInput nativeID="newPassword" placeholder="New Password" secureTextEntry={true}  placeholderTextColor = "white" style={styles.loginFormTextInput} onChangeText={newPassword => this.setState({ newPassword })} />
+                      <TextInput nativeID="confirmPassword" placeholder="Confirm Password" secureTextEntry={true}  placeholderTextColor = "white" style={styles.loginFormTextInput} onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })} />
+                      <TextInput nativeID="confirmationCode" placeholder="Code" style={styles.loginFormTextInput}  placeholderTextColor = "white" onChangeText={confirmationCode => this.setState({ confirmationCode })} />
                       <Button
                       buttonStyle={styles.signUpButton}
                       onPress={() => this.confirmPassword()}

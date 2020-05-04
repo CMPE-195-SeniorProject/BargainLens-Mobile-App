@@ -61,9 +61,9 @@ export default class Signup extends React.Component {
           </View>
           <View style={styles.registerFormView}>
             <Text style={styles.statusText}>{this.state.error}</Text>
-            <TextInput nativeID="email" placeholder="email" style={styles.loginFormTextInput} onChangeText={email => this.setState({ email })} />
-            <TextInput id="password" placeholder="password" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
-            <TextInput id="confirmPassword" placeholder="Confirm Password" placeholderColor="#2b2b2b" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })}/>
+            <TextInput nativeID="email" placeholder="email" style={styles.loginFormTextInput} placeholderTextColor = "white" onChangeText={email => this.setState({ email })} />
+            <TextInput id="password" placeholder="password" style={styles.loginFormTextInput} placeholderTextColor = "white" secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
+            <TextInput id="confirmPassword" placeholder="Confirm Password" placeholderColor="#2b2b2b" placeholderTextColor = "white" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })}/>
             <Text style={styles.loginLink} onPress={() => navigate('Login')}>Already have an account?</Text>
             <Button
               buttonStyle={styles.signUpButton}
