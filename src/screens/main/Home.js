@@ -3,10 +3,9 @@
  * users to take pictures of items that will be processed with TensorFlow for classification.
  */
 import React from 'react';
-import styles from "../auth/style";
+import styles from "../style";
 import {Button,Dimensions, ImageBackground, ActivityIndicator, 
     Modal, Platform, Text, TouchableOpacity, View } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import { FontAwesome } from '@expo/vector-icons';
@@ -109,15 +108,15 @@ export default class Home extends React.Component {
     *Convert raw image data to tensor and pass to model for prediction
     */
     classifyImage = async () => {
-            try {
-                    const { base64 } = this.state.image;
-                    const tensor = this.imageToTensor(base64); //Convert raw image data to tensor
-                    const predictions = await this.state.model.classify(tensor); //Pass tensor to model for prediction
-                    //changes prediction state and passes the tensor array to index 0 
-                    this.setState({prediction: JSON.stringify(predictions[0].className).slice(1,-1)}); 
-            } catch (error) {
-                console.log(error);
-            }
+        try {
+            const { base64 } = this.state.image;
+            const tensor = this.imageToTensor(base64); //Convert raw image data to tensor
+            const predictions = await this.state.model.classify(tensor); //Pass tensor to model for prediction
+            //changes prediction state and passes the tensor array to index 0 
+            this.setState({prediction: JSON.stringify(predictions[0].className).slice(1,-1)}); 
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     //-------------------- DATABASE QUERY -------------------------------------
@@ -176,6 +175,7 @@ export default class Home extends React.Component {
         await this.classifyImage();
         await this.getItems(this.state.prediction);   
     }
+
     /**
      * This modal will pop up once the user has accepted the image and calls fetchingResults
      * Once modal isn't visble, the user can click on the Results button 
@@ -189,14 +189,13 @@ export default class Home extends React.Component {
               modalVisible: false
             })
             }, 10000);
-        return console.log("modal");
-      }
+    }
+
     render() {
-        const { navigate, state } = this.props.navigation
-        const { cameraType, isTfReady, isModelReady, prediction, image, hasPermission, model } = this.state
+        const { cameraType, isTfReady, isModelReady, image, hasPermission, model } = this.state
 
         if (hasPermission === null || isTfReady === false || isModelReady == false || model === null) {
-            return (<View style = {styles.Loader}><ActivityIndicator size = "large" color = "green" animating = "true"></ActivityIndicator></View>); //First condition should be a loading screen
+            return (<View style = {styles.Loader}><ActivityIndicator size = "large" color = "green" ></ActivityIndicator></View>); //First condition should be a loading screen
         } else if (hasPermission === false) {
             return <Text>No access to camera</Text>;
         } else {
@@ -233,7 +232,7 @@ export default class Home extends React.Component {
                                     visible={this.state.modalVisible}
                                     >
                                     <View style={styles.ModalView}>
-                                        <View style = {styles.ModalLoader}><ActivityIndicator size = "large" color = "white" animating = "true">
+                                        <View style = {styles.ModalLoader}><ActivityIndicator size = "large" color = "white" >
                                             </ActivityIndicator>
                                             <Text style={{fontSize: 24, color: 'white', marginTop: 40}}>Loading Image...</Text>
                                         </View> 

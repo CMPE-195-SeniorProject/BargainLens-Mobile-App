@@ -1,20 +1,11 @@
 import React from "react";
-import styles from "../auth/style";
+import styles from "../style";
 import {Text, View, TouchableOpacity, Button, ImageBackground, ScrollView} from 'react-native';
-import { NavigationEvents } from "react-navigation";
 
 export default class Result extends React.Component {
     constructor() {
-        super();
-        this.state = {
-          email: "",
-          password: "",
-          showModal: false,
-          error: "",
-          user: {},
-          item: ''
-        };
-      }
+      super();
+    }
 
   render() {
     const { items, result } = this.props.navigation.state.params;

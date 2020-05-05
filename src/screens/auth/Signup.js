@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./style";
+import styles from "../style";
 import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, ImageBackground} from 'react-native';
 import { Button } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
@@ -37,21 +37,18 @@ export default class Signup extends React.Component {
             validationData: []  //optional
             })
             .then(data => {
-              console.log(data)
               this.props.navigation.navigate('Login');
             })
             .catch(err => this.setState({error: err.message}));
       }
     }catch (err) {
-      //Let's redirect user to an error page here
-      console.log("In here: " + err);
       this.setState({error: err.message})
     }
   }
 
   render() 
   {
-    const { navigate, state } = this.props.navigation;
+    const { navigate } = this.props.navigation;
     return (
       <KeyboardAvoidingView style={styles.containerView} behavior="padding">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
