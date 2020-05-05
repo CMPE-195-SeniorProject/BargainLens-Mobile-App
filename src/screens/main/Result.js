@@ -1,17 +1,14 @@
 import React from "react";
-import styles from "../auth/style";
-import {Text, View, Modal, ImageBackground, ScrollView} from 'react-native';
+import styles from "../style";
+import {Text, View, ImageBackground, ScrollView} from 'react-native';
 
 export default class Result extends React.Component {
     constructor() {
         super();
         this.state = {
-          email: "",
-          password: "",
+          item: '',
           showModal: false,
-          error: "",
-          user: {},
-          item: ''
+          error: ""
         };
       }
 

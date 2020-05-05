@@ -3,8 +3,8 @@
  * users to take pictures of items that will be processed with TensorFlow for classification.
  */
 import React from 'react';
-import styles from "../auth/style";
-import {Button,Dimensions, ImageBackground, ActivityIndicator, Colors , Platform, Text, TouchableOpacity, View } from 'react-native';
+import styles from "../style";
+import {Button,Dimensions, ImageBackground, Platform, Text, TouchableOpacity, View } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import { FontAwesome } from '@expo/vector-icons';
@@ -44,12 +44,11 @@ export default class Home extends React.Component {
         try {
             Auth.signOut()
                 .then(data => {
-                    console.log(data);
                     this.props.screenProps.authenticate(false);
                 })
             .catch(err => console.log(err));
         } catch (err) {
-        console.log(err);
+            console.log(err);
         }
     }
     
@@ -59,7 +58,6 @@ export default class Home extends React.Component {
      */    
      handleCameraType=()=>{
         const { cameraType } = this.state
-        console.log("Getting camera type")
         this.setState({
             cameraType: cameraType === Camera.Constants.Type.back
                 ? Camera.Constants.Type.front
@@ -154,20 +152,19 @@ export default class Home extends React.Component {
         await tf.ready()
             .then(data => {
                 this.setState({isTfReady: true});
-                console.log('Tensor ready')})
+            })
             .catch(err => console.log("There was an error", error));
       
         await mobilenet.load()
             .then(model => {
                 this.setState({isModelReady: true});
                 this.setState({ model: model });
-                console.log('Model ready')})
+            })
             .catch(err => console.log("There was an error", error));
     }
   
     render() {
-        const { navigate, state } = this.props.navigation
-        const { cameraType, isTfReady, isModelReady, prediction, image, hasPermission, model } = this.state
+        const { cameraType, isTfReady, isModelReady, image, hasPermission, model } = this.state
 
         if (hasPermission === null || isTfReady === false || isModelReady == false || model === null) {
             return <View/>; //First condition should be a loading screen

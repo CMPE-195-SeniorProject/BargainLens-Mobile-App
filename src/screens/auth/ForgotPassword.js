@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./style";
+import styles from "../style";
 import {Keyboard, Text, View, Modal, TextInput, TouchableWithoutFeedback, ImageBackground, KeyboardAvoidingView} from 'react-native';
 import { Button } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
@@ -57,7 +57,6 @@ export default class Signup extends React.Component {
 
   render() 
   {
-    const { navigate, state } = this.props.navigation;
     const { passwordReset, showModal } = this.state
 
     return (

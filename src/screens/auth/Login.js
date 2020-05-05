@@ -1,19 +1,17 @@
 import React from "react";
-import styles from "./style";
-import { Keyboard, Text, View, Modal, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, ImageBackground, Image } from 'react-native';
+import styles from "../style";
+import { Keyboard, Text, View, Modal, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class  Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: "",
+      username: "",
       password: "",
       showModal: false,
-      error: "",
-      user: {}
+      error: ""
     };
 
     this.attemptSignIn = this.attemptSignIn.bind(this);
@@ -22,13 +20,10 @@ export default class  Login extends React.Component {
 
   attemptSignIn = async () => {
       try {
-          console.log('my props', this.props.screenProps);
           const user = await Auth.signIn(this.state.username, this.state.password);
-          console.log(user);
           this.setState({ user });
           this.props.screenProps.authenticate(true);
       } catch (err) {
-        console.log("Catch: ",err);
         if (err.code === 'UserNotConfirmedException') {
           this.setState({ showModal: true }); //Set true to make modal visible
         } else if (err.code === 'UserNotFoundException') {
@@ -37,15 +32,13 @@ export default class  Login extends React.Component {
           }
         else {
           this.setState({error: "Invalid Input"});
-        }// else if (err.code === 'UserNotFoundException') {
-          //     // The error happens when the supplied username/email does not exist in the Cognito user pool
+        }
       }
   }
 
   resendConfirmationEmail = async () => {
     try {
       await Auth.resendSignUp(this.state.username);
-      console.log('code resent succesfully');
     } catch (err) {
       console.log("Unable to send email\nError: ", err);
     }  
@@ -53,7 +46,7 @@ export default class  Login extends React.Component {
 
   render() 
   {
-    const { navigate, state } = this.props.navigation;
+    const { navigate } = this.props.navigation;
     const { showModal } = this.state;
 
     return (
@@ -95,15 +88,6 @@ export default class  Login extends React.Component {
                 onPress={() => this.attemptSignIn()}
                 title="Login"
               />
-              <View style={{flexDirection: 'row', alignSelf: 'center', padding: 30}}>
-                <TouchableOpacity onPress={() => Auth.federatedSignIn({ provider: 'Google'})}>
-                  <Image source={require('../../../assets/google_icon.png')} style={styles.googleButton}/>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => Auth.federatedSignIn({ provider: 'Facebook'})}>
-                  <Image source={require('../../../assets/facebook_icon.png')} style={styles.fbButton}/>
-                </TouchableOpacity>
-              </View>
-
             </View>
           </ImageBackground>
         </TouchableWithoutFeedback>
