@@ -1,3 +1,7 @@
+/**
+ * Component for Login screen. Contains a form for existing users to sign into their accounts.
+ * Also, note that this is the app's landing page.
+ */
 import React from "react";
 import styles from "../style";
 import { Keyboard, Text, View, Modal, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, ImageBackground } from 'react-native';
@@ -19,6 +23,10 @@ export default class  Login extends React.Component {
     this.resendConfirmationEmail = this.resendConfirmationEmail.bind(this);
   }
 
+  /**
+   * Method that attempts to sign in user. A call to AMplify Auth library's
+   * signIn method is called. Errors update the rendered error message
+   */
   attemptSignIn = async () => {
       try {
           const user = await Auth.signIn(this.state.username, this.state.password);
@@ -37,6 +45,10 @@ export default class  Login extends React.Component {
       }
   }
 
+  /**
+   * Method for resending confirmation email that is sent when a user intially creates an account
+   * This method is called when user click link in modal shwon when account is not confirmed
+   */
   resendConfirmationEmail = async () => {
     try {
       await Auth.resendSignUp(this.state.username);
@@ -55,6 +67,7 @@ export default class  Login extends React.Component {
       <KeyboardAvoidingView style={styles.containerView} behavior="padding">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ImageBackground source={ require('../../../assets/background.png')} style={styles.loginScreenContainer}>
+            /**Modal that informs user that there account has not been confirmed yet */
             <Modal
               animationType="fade"
               transparent={true}

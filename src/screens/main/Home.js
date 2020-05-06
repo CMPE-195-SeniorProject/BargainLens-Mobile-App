@@ -245,7 +245,6 @@ export default class Home extends React.Component {
                                         title="Retake"
                                     />
                                     <Button
-                                    
                                         buttonStyle = {{postion: 'absolute', bottom: 0}}
                                         color ='green'
                                         onPress = {() => {

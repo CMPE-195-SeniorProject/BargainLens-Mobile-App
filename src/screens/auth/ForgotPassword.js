@@ -1,3 +1,8 @@
+/**
+ * Component for the Forgot Password screen. Contains a form where user enter email.
+ * Once email is submitted form updates to require a verification code that was sent to user's 
+ * email and the account's new password
+ */
 import React from "react";
 import styles from "../style";
 import {Keyboard, Text, View, Modal, TextInput, TouchableWithoutFeedback, ImageBackground, KeyboardAvoidingView} from 'react-native';
@@ -22,6 +27,10 @@ export default class Signup extends React.Component {
     this.confirmPassword = this.confirmPassword.bind(this);
   }
 
+  /**
+   * Function for intiating the resetting of an accounts password
+   * in the event that it is forgotten
+   */
   resetPassword = async () => {
     try{
         const { email } = this.state;
@@ -36,6 +45,10 @@ export default class Signup extends React.Component {
     }
   }
 
+  /**
+   * Send email, password, and confirmation code (from email) to Amplify
+   * to confirm the user's new password
+   */
   confirmPassword = async () => {
     try{
         const { email, confirmationCode, newPassword, passwordConfirmation} = this.state;

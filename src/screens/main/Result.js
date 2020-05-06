@@ -1,3 +1,7 @@
+/**
+ * This component serves as the result page. Queried data is past to this page
+ * and displayed to the user
+ */
 import React from "react";
 import styles from "../style";
 import {Text, View, TouchableOpacity, Button, ImageBackground, ScrollView} from 'react-native';

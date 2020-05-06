@@ -1,3 +1,7 @@
+/**
+ * Component for the Signup screen. Contains a form for users to enter email
+ * and password for account creation
+ */
 import React from "react";
 import styles from "../style";
 import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, ImageBackground} from 'react-native';
@@ -19,6 +23,11 @@ export default class Signup extends React.Component {
     this.registerUsers = this.registerUser.bind(this);
   }
 
+  /**
+   * Method calls Amplify Auth library's signUp method that sends the
+   * email and password the user entered to Amplify->Cognito. A confirmation
+   * email is sent on successful execution
+   */
   registerUser = () => {
     try{
       const { email, password, passwordConfirmation } = this.state;

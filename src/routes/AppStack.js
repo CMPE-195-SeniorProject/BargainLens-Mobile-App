@@ -1,3 +1,7 @@
+/**
+ * Navigation stack for navigating user through the 
+ * main feature screens of the app
+ */
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
