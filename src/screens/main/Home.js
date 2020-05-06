@@ -3,8 +3,9 @@
  * users to take pictures of items that will be processed with TensorFlow for classification.
  */
 import React from 'react';
-import styles from "../auth/style";
-import {Button,Dimensions, ImageBackground, ActivityIndicator, Colors , Platform, Text, TouchableOpacity, View } from 'react-native';
+import styles from "../style";
+import {Button,Dimensions, ImageBackground, ActivityIndicator, 
+    Modal, Platform, Text, TouchableOpacity, View } from 'react-native';
 import { Camera } from 'expo-camera';
 import * as Permissions from 'expo-permissions';
 import { FontAwesome } from '@expo/vector-icons';
@@ -31,6 +32,8 @@ export default class Home extends React.Component {
             hasPermission: null,
             cameraType: Camera.Constants.Type.back,
             error: "",
+            modalVisible: false, 
+            loadingScreen: false,
         }
         
         this.logout = this.logout.bind(this);
@@ -92,14 +95,13 @@ export default class Home extends React.Component {
     imageToTensor = (rawData) => {
         const byteCharacters = Base64.atob(rawData);    //Convert encoded data into ASCII characters
         const byteNumbers = new Array(byteCharacters.length);
-
         //Convert character into unicode
         for (let i = 0; i < byteCharacters.length; i++) {
             byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
         
         const byteArray = new Uint8Array(byteNumbers); //Instantiate an array of bytes
-        return decodeJpeg(byteArray);  //Decode bytes into binary
+        return decodeJpeg(byteArray); //Decode bytes into binary
     }
 
     /**
@@ -128,7 +130,7 @@ export default class Home extends React.Component {
         const query =  `
             query listItems {
                 listItems(filter:{ name:{
-                    eq:${item}
+                    eq:"${item}"
                 }}){
                 items{
                     id
@@ -164,13 +166,36 @@ export default class Home extends React.Component {
                 console.log('Model ready')})
             .catch(err => console.log("There was an error", error));
     }
-  
+
+    /**
+     * This function will fetch the TensorFlow prediciton and find the match in the database 
+     * This funciton gets called in setModalVisbile() 
+    */
+    async fetchingResults() {
+        await this.classifyImage();
+        await this.getItems(this.state.prediction);   
+    }
+
+    /**
+     * This modal will pop up once the user has accepted the image and calls fetchingResults
+     * Once modal isn't visble, the user can click on the Results button 
+     */
+   setModalVisible = async () =>{
+        this.setState({modalVisible: true}); 
+        setTimeout(() => 
+        {   
+            this.fetchingResults();
+            this.setState({
+              modalVisible: false
+            })
+            }, 10000);
+    }
+
     render() {
-        const { navigate, state } = this.props.navigation
-        const { cameraType, isTfReady, isModelReady, prediction, image, hasPermission, model } = this.state
+        const { cameraType, isTfReady, isModelReady, image, hasPermission, model } = this.state
 
         if (hasPermission === null || isTfReady === false || isModelReady == false || model === null) {
-            return <View/>; //First condition should be a loading screen
+            return (<View style = {styles.Loader}><ActivityIndicator size = "large" color = "green" ></ActivityIndicator></View>); //First condition should be a loading screen
         } else if (hasPermission === false) {
             return <Text>No access to camera</Text>;
         } else {
@@ -201,24 +226,32 @@ export default class Home extends React.Component {
                         //Display picture of photo taken 
                         : (<ImageBackground source={{uri: image.uri}} style={{ height: Dimensions.get('window').height, width: Dimensions.get('window').width}}>
                                 <View  style={styles.buttonContainer}>
-                                    
+                                <Modal
+                                    animationType = "slide"
+                                    transparent
+                                    visible={this.state.modalVisible}
+                                    >
+                                    <View style={styles.ModalView}>
+                                        <View style = {styles.ModalLoader}><ActivityIndicator size = "large" color = "white" >
+                                            </ActivityIndicator>
+                                            <Text style={{fontSize: 24, color: 'white', marginTop: 40}}>Loading Image...</Text>
+                                        </View> 
+                                    </View>
+                                </Modal>
                                     <Button
                                         buttonStyle = {{postion: 'absolute', bottom: 0 }}
                                         color='red'
                                         onPress={() => this.setState({ image: null })}
                                         title="Retake"
                                     />
-                                    {/*Calls the classifyImage() function so the picture can get processed to TensorFlow*/}
                                     <Button
                                         buttonStyle = {{postion: 'absolute', bottom: 0}}
-                                        color='green'
-                                        onPress={async () => {
-                                            await this.classifyImage();
-                                            await this.getItems();
-                                        }}
+                                        color ='green'
+                                        onPress = {() => {
+                                            this.setModalVisible(); //shows loading screen and calls to process image
+                                            }}
                                         title="Accept"
                                         color= 'green'
-                                        title= "Accept"
                                     />  
                                     {/*Sends the prediction over to the Result.js*/}
                                     <Button
@@ -228,8 +261,10 @@ export default class Home extends React.Component {
                                         onPress={() =>  
                                             this.props.navigation.navigate('Result', {  
                                                 items: this.state.items, 
-                                                result: this.state.prediction
-                                            })  
+                                                result: this.state.prediction,
+                                                image: this.setState({image: null}) //sets the image back to null in case user decides to come back to camera view
+                                            }) 
+                                            
                                         }  
                                     />
                                 </View>

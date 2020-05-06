@@ -1,5 +1,10 @@
+/**
+ * Component for the Forgot Password screen. Contains a form where user enter email.
+ * Once email is submitted form updates to require a verification code that was sent to user's 
+ * email and the account's new password
+ */
 import React from "react";
-import styles from "./style";
+import styles from "../style";
 import {Keyboard, Text, View, Modal, TextInput, TouchableWithoutFeedback, ImageBackground, KeyboardAvoidingView} from 'react-native';
 import { Button } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
@@ -22,9 +27,13 @@ export default class Signup extends React.Component {
     this.confirmPassword = this.confirmPassword.bind(this);
   }
 
+  /**
+   * Function for intiating the resetting of an accounts password
+   * in the event that it is forgotten
+   */
   resetPassword = async () => {
     try{
-        const { email, passwordReset } = this.state;
+        const { email } = this.state;
         await Auth.forgotPassword(email)
             .then(data => {
                 this.setState({ passwordReset: true, showModal: true, error: "" });
@@ -36,6 +45,10 @@ export default class Signup extends React.Component {
     }
   }
 
+  /**
+   * Send email, password, and confirmation code (from email) to Amplify
+   * to confirm the user's new password
+   */
   confirmPassword = async () => {
     try{
         const { email, confirmationCode, newPassword, passwordConfirmation} = this.state;
@@ -57,7 +70,6 @@ export default class Signup extends React.Component {
 
   render() 
   {
-    const { navigate, state } = this.props.navigation;
     const { passwordReset, showModal } = this.state
 
     return (
@@ -88,7 +100,7 @@ export default class Signup extends React.Component {
             //Form to enter email
             ?(<View style={styles.forgotPasswordFormView}>
                 <Text style={styles.statusText}>{this.state.error}</Text>
-                <TextInput nativeID="email" placeholder="email" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} onChangeText={email => this.setState({ email })} />
+                <TextInput nativeID="email" placeholder="email" placeholderColor="#c4c3cb"  placeholderTextColor = "white" style={styles.loginFormTextInput} onChangeText={email => this.setState({ email })} />
                 <Button
                   buttonStyle={styles.signUpButton}
                   onPress={() => this.resetPassword()}
@@ -104,9 +116,9 @@ export default class Signup extends React.Component {
               :(<View style={styles.loginScreenContainer}>
                   <View style={styles.resetPasswordFormView}>
                       <Text style={styles.statusText}>{this.state.error}</Text>
-                      <TextInput nativeID="newPassword" placeholder="New Password" secureTextEntry={true} style={styles.loginFormTextInput} onChangeText={newPassword => this.setState({ newPassword })} />
-                      <TextInput nativeID="confirmPassword" placeholder="Confirm Password" secureTextEntry={true} style={styles.loginFormTextInput} onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })} />
-                      <TextInput nativeID="confirmationCode" placeholder="Code" style={styles.loginFormTextInput} onChangeText={confirmationCode => this.setState({ confirmationCode })} />
+                      <TextInput nativeID="newPassword" placeholder="New Password" secureTextEntry={true}  placeholderTextColor = "white" style={styles.loginFormTextInput} onChangeText={newPassword => this.setState({ newPassword })} />
+                      <TextInput nativeID="confirmPassword" placeholder="Confirm Password" secureTextEntry={true}  placeholderTextColor = "white" style={styles.loginFormTextInput} onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })} />
+                      <TextInput nativeID="confirmationCode" placeholder="Code" style={styles.loginFormTextInput}  placeholderTextColor = "white" onChangeText={confirmationCode => this.setState({ confirmationCode })} />
                       <Button
                       buttonStyle={styles.signUpButton}
                       onPress={() => this.confirmPassword()}

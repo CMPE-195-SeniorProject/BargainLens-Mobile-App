@@ -9,9 +9,6 @@ export default {
     fontWeight: "800",
     color: '#98f598',
     textAlign: 'center',
-    fontFamily: 'sans-serif-light',
-    //fontFamily: 'monospace',
-
     textShadowColor: 'black',
     textShadowRadius:20,
     textShadowOffset: {width:10, height:5}
@@ -62,38 +59,30 @@ export default {
   loginFormView: {
     marginTop: 80,
     width: width-(width*.05),
-    height: height-(height*.52),
-    //justifyContent: 'center',
+    height: height-(height*.58),
     backgroundColor: '#000000c9',
     borderRadius: 50,
-    //backgroundColor: 'transparent'
   },
   registerFormView: {
     marginTop: 80,
     width: width-(width*.05),
-    height: height-(height*.57),
-    //justifyContent: 'center',
+    height: height-(height*.5),
     backgroundColor: '#000000c9',
-    borderRadius: 50,
-    //backgroundColor: 'transparent'
+    borderRadius: 50
   },
   forgotPasswordFormView: {
     marginTop: 80,
     width: width-(width*.05),
-    height: height-(height*.68),
-    //justifyContent: 'center',
+    height: height-(height*.60),
     backgroundColor: '#000000c9',
-    borderRadius: 50,
-    //backgroundColor: 'transparent'
+    borderRadius: 50
   },
   resetPasswordFormView: {
     marginTop: 80,
     width: width-(width*.05),
     height: height-(height*.60),
-    //justifyContent: 'center',
     backgroundColor: '#000000c9',
     borderRadius: 50,
-    //backgroundColor: 'transparent'
   },
   loginFormTextInput: {
     height: 43,
@@ -137,9 +126,7 @@ export default {
     flex: 1,
     width: width,
     height: height, 
-    //justifyContent: 'center',
     alignItems: 'center'
-    //backgroundColor: '#77dd77',
   },
   logoText: {
     fontSize: 40,
@@ -237,38 +224,30 @@ export default {
   },
   resultPage: {
     color: "#000000",
-    //backgroundColor: "transparent",
     justifyContent: 'center',
     width:200,
     alignSelf: "center",
     textAlign: "center",
     marginTop: 10,
     marginBottom: 10,
-    fontSize: 24,
-    fontFamily: 'monospace',
+    fontSize: 24
   },
   ResultsForm: {
-    marginTop: 80,
+    marginTop: 150,
     width: width-(width*.05),
-    height: height - (height * 0.2),
+    height: height - (height * .55),
     justifyContent: 'center',
     backgroundColor: '#f0eae8',
     opacity: 0.7,
-    borderRadius: 50,
-    //backgroundColor: 'transparent'
+    borderRadius: 50
   },
   backToHome: {
-    backgroundColor: '#3897f1',
+    backgroundColor: '#fff',
     borderRadius: 50,
-    //height: 45,
-    marginTop: 10,
-    position: 'absolute', 
-    top: 0, 
-    //left: 10,
+    marginTop: 50
   },
   ResultHeader: {
     color: "#000000",
-    //backgroundColor: "transparent",
     justifyContent: 'center',
     width:200,
     alignSelf: "center",
@@ -276,8 +255,7 @@ export default {
     marginTop: 10,
     marginBottom: 10,
     fontSize: 24,
-    fontWeight: 'bold',
-    fontFamily: 'monospace',
+    fontWeight: 'bold'
   },
   ResultBackButton: {
     width:50, 
@@ -287,4 +265,19 @@ export default {
     marginTop: -10,
     position: 'absolute'
   },
+  Loader: {
+    marginTop: 325,
+    justifyContent: 'center',
+  },
+  ModalLoader: {
+    marginTop: 40,
+    justifyContent: 'center',
+  },
+  ModalView:{
+    flex: 1,    
+    alignItems: 'center',
+    backgroundColor: '#a8ee90',
+    justifyContent:'center',
+    alignItems:'center',
+  }
 };

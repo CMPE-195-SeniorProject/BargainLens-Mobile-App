@@ -1,15 +1,18 @@
+/**
+ * Component for Login screen. Contains a form for existing users to sign into their accounts.
+ * Also, note that this is the app's landing page.
+ */
 import React from "react";
-import styles from "./style";
-import { Keyboard, Text, View, Modal, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, ImageBackground, Image } from 'react-native';
+import styles from "../style";
+import { Keyboard, Text, View, Modal, TextInput, TouchableWithoutFeedback, KeyboardAvoidingView, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Auth } from 'aws-amplify';
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class  Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: "",
+      username: "",
       password: "",
       showModal: false,
       error: "",
@@ -20,15 +23,16 @@ export default class  Login extends React.Component {
     this.resendConfirmationEmail = this.resendConfirmationEmail.bind(this);
   }
 
+  /**
+   * Method that attempts to sign in user. A call to AMplify Auth library's
+   * signIn method is called. Errors update the rendered error message
+   */
   attemptSignIn = async () => {
       try {
-          console.log('my props', this.props.screenProps);
           const user = await Auth.signIn(this.state.username, this.state.password);
-          console.log(user);
           this.setState({ user });
           this.props.screenProps.authenticate(true);
       } catch (err) {
-        console.log("Catch: ",err);
         if (err.code === 'UserNotConfirmedException') {
           this.setState({ showModal: true }); //Set true to make modal visible
         } else if (err.code === 'UserNotFoundException') {
@@ -37,11 +41,14 @@ export default class  Login extends React.Component {
           }
         else {
           this.setState({error: "Invalid Input"});
-        }// else if (err.code === 'UserNotFoundException') {
-          //     // The error happens when the supplied username/email does not exist in the Cognito user pool
+        }
       }
   }
 
+  /**
+   * Method for resending confirmation email that is sent when a user intially creates an account
+   * This method is called when user click link in modal shwon when account is not confirmed
+   */
   resendConfirmationEmail = async () => {
     try {
       await Auth.resendSignUp(this.state.username);
@@ -53,13 +60,14 @@ export default class  Login extends React.Component {
 
   render() 
   {
-    const { navigate, state } = this.props.navigation;
+    const { navigate } = this.props.navigation;
     const { showModal } = this.state;
 
     return (
       <KeyboardAvoidingView style={styles.containerView} behavior="padding">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ImageBackground source={ require('../../../assets/background.png')} style={styles.loginScreenContainer}>
+            /**Modal that informs user that there account has not been confirmed yet */
             <Modal
               animationType="fade"
               transparent={true}
@@ -86,8 +94,8 @@ export default class  Login extends React.Component {
             <View style={styles.loginFormView}>
 
               <Text style={styles.statusText}>{this.state.error}</Text>
-              <TextInput placeholder="Username" style={styles.loginFormTextInput} onChangeText={username => this.setState({ username })} />
-              <TextInput placeholder="Password" style={styles.loginFormTextInput} secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
+              <TextInput placeholder="Username" style={styles.loginFormTextInput} placeholderTextColor = "white" onChangeText={username => this.setState({ username })} />
+              <TextInput placeholder="Password" style={styles.loginFormTextInput} placeholderTextColor = "white" secureTextEntry={true} onChangeText={password => this.setState({ password })}/>
               <Text style={styles.forgotLink} onPress={() => navigate('ForgotPassword')}>Forgot Password?</Text>
               <Text style={styles.forgotLink} onPress={() => navigate('Signup')}>New user? Create Account</Text>
               <Button
@@ -95,15 +103,6 @@ export default class  Login extends React.Component {
                 onPress={() => this.attemptSignIn()}
                 title="Login"
               />
-              <View style={{flexDirection: 'row', alignSelf: 'center', padding: 30}}>
-                <TouchableOpacity onPress={() => Auth.federatedSignIn({ provider: 'Google'})}>
-                  <Image source={require('../../../assets/google_icon.png')} style={styles.googleButton}/>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => Auth.federatedSignIn({ provider: 'Facebook'})}>
-                  <Image source={require('../../../assets/facebook_icon.png')} style={styles.fbButton}/>
-                </TouchableOpacity>
-              </View>
-
             </View>
           </ImageBackground>
         </TouchableWithoutFeedback>
